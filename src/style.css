@@ -1,0 +1,170 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/*  */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*,
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: var(--font-normal);
+}
+
+:root {
+    --text-color-black: black;
+    --background-white: white;
+    --background-gray: hsl(220, 20%, 97%);
+    --background-dark: #14121e;
+    --text-color-90: hsl(0, 0%, 20%);
+    --text-color-70: hsl(0, 0%, 30%);
+    --text-color-10: hsl(0, 0%, 85%);
+    --text-color-20: hsl(0, 0%, 70%);
+    --text-color-30: hsl(0, 0%, 60%);
+    --button-hover: #cfd2ea;
+    --box-shadow: rgba(0, 0, 0, 0.22);
+    --accent-color-green: #d7f7dc;
+    --accent-color-purple: #c4c7fa;
+    --accent-color-purple-intense: #9397e4;
+    --border-color-10: hsl(0, 0%, 95%);
+    /* --background-clearsky: url(' ./assets/background-images/clear sky.jpg');
+    --text-clearsky: hsla(234, 100%, 94%, 0.5);
+    --background-clouds: url(' ./assets/background-images/clouds.jpg');
+    --text-clouds: hsla(209, 24%, 19%, 0.6);
+    --background-thunderstorm: linear-gradient(170deg, rgba(255, 251, 251, 1) 0%, rgba(231, 215, 218, 1) 20%, rgba(238, 213, 189, 1) 13%, rgba(79, 89, 152, 1) 77%);
+    --text-thunderstorm: #282b2e;
+    --background-rain: url(' ./assets/background-images/rain.jpg');
+    --text-rain: #24303b; */
+    --font-normal: 1.3rem;
+    --font-bigger: 1.6rem;
+    --font-small: 1rem;
+    --border-radius: .4rem;
+}
