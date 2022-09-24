@@ -1,7 +1,7 @@
 import { Ship } from './ship.js';
 
 
-const boardSize = 10;
+export const boardSize = 10;
 
 
 function checkIfAnyBoxTaken(ship, board, startLocation, direction) {
@@ -13,6 +13,11 @@ function checkIfAnyBoxTaken(ship, board, startLocation, direction) {
 
 export function findShipObjectWithName(shipObjects, name) {
     return shipObjects.filter(ship => ship.name === name)[0]
+}
+
+function illegalMove() {
+    console.log('this is illegal move')
+    return false
 }
 
 export class Gameboard {
@@ -44,9 +49,8 @@ export class Gameboard {
     }
 
     placeShip(ship, startLocation, direction) {
-
         if (startLocation[direction] + ship.length > boardSize) {
-            return "cannot place ship here" // later change this to function so that it changes all left boxes class to show 'X'
+            return "cannot place ship here" // later change this to function so that it changes all left boxes class to show X
         } else if (checkIfAnyBoxTaken(ship, this.board, startLocation, direction)) {
             return "cannot place ship here - collision with other ship"
         } else {
@@ -57,15 +61,15 @@ export class Gameboard {
     }
 
     receiveAttack(coordinates) {
-        var coordinatesOfAttack = this.board[coordinates['x']][coordinates['y']]
-        if (coordinatesOfAttack === null) {
-            this.missedLocations.push(`${coordinates['x']}${coordinates['y']}`)
-        } else if (this.hitLocations.includes(`${coordinates['x']}${coordinates['y']}`)) {
-            return 'cannot hit same position twice'
+        var coordinatesOfAttack = this.board[coordinates[x]][coordinates[y]]
+        if (this.hitLocations.includes(`${coordinates[x]}${coordinates[y]}`)) {
+            return illegalMove()
+        } else if (coordinatesOfAttack === null) {
+            this.missedLocations.push(`${coordinates[x]}${coordinates[y]}`)
         } else {
             const shipAttacked = findShipObjectWithName(this.shipObjects, coordinatesOfAttack)
             shipAttacked.hit();
-            this.hitLocations.push(`${coordinates['x']}${coordinates['y']}`)
+            this.hitLocations.push(`${coordinates[x]}${coordinates[y]}`)
         }
     }
 

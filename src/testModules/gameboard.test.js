@@ -1,5 +1,5 @@
-import { Gameboard, findShipObjectWithName } from '../modules/gameboard';
-import { Ship } from '../modules/ship';
+import { Gameboard, findShipObjectWithName } from '../modules/factories/gameboard';
+import { Ship } from '../modules/factories/ship';
 
 // export const newShip = new Ship('pies', 5);
 // export const newShip2 = new Ship('pies2', 3);
@@ -120,5 +120,4 @@ test('gameboard all ships sunk', () => {
     newBoard.receiveAttack({ 'x': 2, 'y': 4 })
     newBoard.receiveAttack({ 'x': 2, 'y': 5 })
     expect(newBoard.reportEntireFleetStatus()).toBeTruthy()
-
 });

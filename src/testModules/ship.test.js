@@ -1,4 +1,4 @@
-import { Ship, shipObjects, findShipObjectWithName } from "../modules/ship";
+import { Ship, shipObjects, findShipObjectWithName } from "../modules/factories/ship";
 
 const newShip = new Ship('pies', 5);
 
