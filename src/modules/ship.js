@@ -1,23 +1,19 @@
-export var shipObjects = [];
+import shipObjects from './gameboard'
 
 export class Ship {
     constructor(name, length) {
         this.name = name;
         this.length = length;
-        this.hitPositions = [];
-        shipObjects.push(this);
+        this.hitPositions = 0;
     }
 
-    hit(position) {
-        this.hitPositions.push(position);
+    hit() {
+        this.hitPositions ++;
     }
 
     isSunk() {
-        return this.hitPositions.length === this.length // if hitPosistion array contains amount of positions equal to length of the ship it means its sunk
+        return this.hitPositions === this.length // if hitPosition array contains amount of positions equal to length of the ship it means its sunk
     }
 
 }
 
-export function findShipObjectWithName(name) {
-    return shipObjects.filter(ship => ship.name === name)[0]
-}

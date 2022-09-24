@@ -8,35 +8,28 @@ test('ship constructor', () => {
 })
 
 test('ship hit', () => {
-    newShip.hit(4)
-    expect(newShip.hitPositions).toStrictEqual([4]);
-    newShip.hitPositions = [];
+    newShip.hit()
+    expect(newShip.hitPositions).toStrictEqual(1);
+    newShip.hitPositions = 0;
 });
 
 test('ship is sunk - all positions hit', () => {
-    newShip.hit(1)
-    newShip.hit(2)
-    newShip.hit(3)
-    newShip.hit(4)
-    newShip.hit(5)
-    expect(newShip.hitPositions).toStrictEqual([1, 2, 3, 4, 5]);
+    newShip.hit()
+    newShip.hit()
+    newShip.hit()
+    newShip.hit()
+    newShip.hit()
+    expect(newShip.hitPositions).toBe(5);
     expect(newShip.isSunk).toBeTruthy();
-    newShip.hitPositions = [];
+    newShip.hitPositions = 0;
 });
 
 test('ship is sunk = not all positions hit', () => {
-    newShip.hit(2)
-    newShip.hit(3)
-    newShip.hit(4)
-    newShip.hit(5)
-    expect(newShip.hitPositions).toStrictEqual([2, 3, 4, 5]);
+    newShip.hit()
+    newShip.hit()
+    newShip.hit()
+    newShip.hit()
+    expect(newShip.hitPositions).toStrictEqual(4);
     expect(newShip.isSunk).toBeTruthy();
 });
 
-test('ship is in shipObjects array', () => {
-    expect(shipObjects.includes(newShip)).toBeTruthy();
-});
-
-test('findShipObjectWithName returns an object', () => {
-    expect(findShipObjectWithName(newShip.name)).toBe(newShip);
-});
