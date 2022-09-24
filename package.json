@@ -367,6 +367,7 @@
   },
   "scripts": {
     "test": "jest",
+    "start-test": "jest --watch",
     "start": "webpack serve --open",
     "build": "webpack"
   },
