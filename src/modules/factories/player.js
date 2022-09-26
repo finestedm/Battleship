@@ -1,11 +1,14 @@
 import { boardSize, Gameboard } from "./gameboard";
 
+export var players = []
+
 export class Player {
     constructor(name, isPC) {
         this.name = name;
         this.isPC = isPC;
         this.gameboard = new Gameboard();
         this.init()
+        players.push(this)
     }
 
     init() {

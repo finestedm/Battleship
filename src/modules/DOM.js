@@ -1,4 +1,5 @@
 import { Gameboard } from "./factories/gameboard"
+import { players } from "./factories/player";
 
 const root = document.getElementById('content')
 root.classList = 'container'
@@ -7,6 +8,7 @@ gameBoardHolder.className = 'row row-cols-2'
 root.append(gameBoardHolder)
 
 export function createGameboardDOM(playerObject) {
+
     try {
         const currentGameboard = document.querySelector(`#gameboard-${playerObject.name}`)
         currentGameboard.remove();
@@ -37,8 +39,8 @@ function createBoardBoxDOM(box, playerObject, x, y) {
     return boardBox
 }
 
-export function regenerateGameboard(playerObject) {
-    createGameboardDOM(playerObject)
+export function regenerateGameboard() {
+    players.forEach(playerObject => createGameboardDOM(playerObject))
 }
 
 export function createListOfUnusedShips(playerObject) {
@@ -52,13 +54,18 @@ export function createListOfUnusedShips(playerObject) {
     const unusedShips = document.createElement('ul');
     unusedShips.id = `unused-ships-${playerObject.name}`
     playerObject.gameboard.shipObjects.forEach(ship => {
-        !ship.alreadyUsed && unusedShips.append(createShipDiv(ship))
+        !ship.alreadyUsed && unusedShips.append(createShipDiv(playerObject, ship))
     });
     return unusedShips
 }
 
-function createShipDiv(ship) {
+function createShipDiv(playerObject, ship) {
     const shipContainer = document.createElement('li')
     shipContainer.innerText = ship.name;
+    shipContainer.addEventListener('click', () => {
+        console.log('eee');
+        playerObject.gameboard.placeShip(ship, { x: 1, y: 2 }, 'x')
+        regenerateGameboard(playerObject);
+    })
     return shipContainer
 }
