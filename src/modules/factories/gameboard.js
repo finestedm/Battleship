@@ -30,7 +30,6 @@ export class Gameboard {
         this.shipObjects = [];
         this.hitLocations = []
         this.missedLocations = []
-
     }
 
     init() {
@@ -56,20 +55,19 @@ export class Gameboard {
         } else {
             for (let i = 0; i < ship.length; i++) {
                 this.board[(startLocation.x) + (i * (direction === 'x'))][startLocation.y + (i * (direction === 'y'))] = ship.name // change value of the taken location to ship name along x or y axis 
+                ship.alreadyUsed = true;
             }
         }
     }
 
     receiveAttack(coordinates) {
-        var coordinatesOfAttack = this.board[coordinates[x]][coordinates[y]]
-        if (this.hitLocations.includes(`${coordinates[x]}${coordinates[y]}`)) {
+        var shipName = this.board[coordinates['x']][coordinates['y']]
+        if (this.hitLocations.includes(`${coordinates['x']}${coordinates['y']}`)) {
             return illegalMove()
-        } else if (coordinatesOfAttack === null) {
-            this.missedLocations.push(`${coordinates[x]}${coordinates[y]}`)
+        } else if (shipName === null) {
+            this.missedLocations.push(`${coordinates['x']}${coordinates['y']}`)
         } else {
-            const shipAttacked = findShipObjectWithName(this.shipObjects, coordinatesOfAttack)
-            shipAttacked.hit();
-            this.hitLocations.push(`${coordinates[x]}${coordinates[y]}`)
+            this.shipHit(coordinates['x'], coordinates['y'], shipName)
         }
     }
 
@@ -77,6 +75,14 @@ export class Gameboard {
         return this.shipObjects.every(ship => ship.isSunk() === true)
     }
 
+    shipHit(coordX, coordY, shipName) {
+        const shipAttacked = findShipObjectWithName(this.shipObjects, shipName)
+        shipAttacked.hit();
+        this.hitLocations.push(`${coordX}${coordY}`)
+    }
+
+
 }
+
 
 
