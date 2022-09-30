@@ -10,7 +10,3 @@ export class Box {
     }
 
 }
-
-export function findBoxObject(x, y) {
-    
-}

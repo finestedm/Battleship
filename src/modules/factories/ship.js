@@ -6,6 +6,8 @@ export class Ship {
         this.length = length;
         this.hitPositions = 0;
         this.alreadyUsed = false;
+        this.color = null;
+        this.chooseShipColor()
     }
 
     hit() {
@@ -14,6 +16,23 @@ export class Ship {
 
     isSunk() {
         return this.hitPositions === this.length // if hitPosition array contains amount of positions equal to length of the ship it means its sunk
+    }
+
+    chooseShipColor() {
+        switch (this.length) {
+            case 4:
+                this.color = 'red'
+                break;
+            case 3:
+                this.color = 'orange'
+                break;
+            case 2:
+                this.color = 'yellow'
+                break;
+            default:
+                this.color = 'black'
+                break;
+        }
     }
 
 }

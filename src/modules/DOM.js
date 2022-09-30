@@ -37,11 +37,12 @@ function createBoardBoxDOM(box, playerObject) {
     const boardBox = document.createElement('button')
     boardBox.type = 'button';
     boardBox.className = `box ${playerObject.name}`;
-    boardBox.innerText = box.containedShip;
+    console.log(box)
+    box.containedShip && (boardBox.style.backgroundColor = box.containedShip.color);
     boardBox.setAttribute('dataset', `${playerObject.name}`);
-    boardBox.addEventListener('click', () => {
+    boardBox.addEventListener('click', (e) => {
         if (((playerObject.gameboard.shipObjects.filter(ship => !ship.alreadyUsed)).length) === 0) {
-            playerObject.isPC && playerObject.gameboard.receiveAttack(`{ x: ${box.x}, y: ${box.y} }`)
+            playerObject.isPC && playerObject.gameboard.receiveAttack(box)
         } else {
             alert('first place all your ships')
         }

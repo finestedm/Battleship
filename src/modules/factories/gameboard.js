@@ -27,8 +27,8 @@ export class Gameboard {
     }
 
     init() {
-        for (let x = 1; x <= boardSize; x++) {
-            for (let y = 1; y <= boardSize; y++) {
+        for (let x = 0; x < boardSize; x++) {
+            for (let y = 0; y < boardSize; y++) {
                 this.board.push(new Box(x, y))
             }
         }
@@ -41,26 +41,31 @@ export class Gameboard {
     }
 
     placeShip(ship, startLocation, direction) { //ensure that startlocation is a Box Object
-        if (startLocation[direction] + ship.length > boardSize) {
+        if (startLocation.direction + ship.length > boardSize) {
             return "cannot place ship here" // later change this to function so that it changes all left boxes class to show X
-        } else if (checkIfAnyBoxTaken(ship, this.board, startLocation, direction)) {
+        } else if (this.checkIfAnyBoxTaken(ship, startLocation, direction)) {
             return "cannot place ship here - collision with other ship"
         } else {
             for (let i = 0; i < ship.length; i++) {
-                this.board[(startLocation.x) + (i * (direction === 'x'))][startLocation.y + (i * (direction === 'y'))] = ship.name // change value of the taken location to ship name along x or y axis 
-                ship.alreadyUsed = true;
-            }
+                if (direction === 'x') {
+                    this.board[((startLocation.x) * 10) + (i * 10) + (startLocation.y)].containedShip = ship
+                } else if (direction === 'y') {
+                    this.board[(startLocation.x * 10 + (i)) + startLocation.y].containedShip = ship
+                }
+            } // change value of the taken location to ship name along x or y axis 
+            ship.alreadyUsed = true;
         }
     }
 
-    receiveAttack(coordinates) {
-        var shipName = this.board[coordinates['x']][coordinates['y']]
-        if (this.hitLocations.includes(`${coordinates['x']}${coordinates['y']}`)) {
+
+    receiveAttack(box) {
+        var shipInBox = this.board[box.x * 10 + box.y].containedShip
+        if (this.hitLocations.includes(box)) {
             return illegalMove()
-        } else if (shipName === null) {
-            this.missedLocations.push(`${coordinates['x']}${coordinates['y']}`)
+        } else if (shipInBox === null) {
+            this.missedLocations.push(box)
         } else {
-            this.shipHit(coordinates['x'], coordinates['y'], shipName)
+            shipInBox.hit(box)
         }
     }
 
@@ -68,8 +73,8 @@ export class Gameboard {
         return this.shipObjects.every(ship => ship.isSunk() === true)
     }
 
-    shipHit(coordX, coordY, shipName) {
-        const shipAttacked = findShipObjectWithName(this.shipObjects, shipName)
+    shipHit(coordX, coordY, shipInBox) {
+        const shipAttacked = findShipObjectWithName(this.shipObjects, shipInBox)
         shipAttacked.hit();
         this.hitLocations.push(`${coordX}${coordY}`)
     }
@@ -79,12 +84,12 @@ export class Gameboard {
         var hitLocationBoxObjects = [];
         for (let i = 0; i < ship.length; i++) {
             if (direction === 'x') {
-                hitLocationBoxObjects.push(this.board[((startLocation.x - 1) * 10) + (i * 10)])
+                hitLocationBoxObjects.push(this.board[startLocation.x * 10 + i * 10 + startLocation.y])
             } else if (direction === 'y') {
-                hitLocationBoxObjects.push(this.board[(startLocation.y - 1) + (i)])
+                hitLocationBoxObjects.push(this.board[startLocation.x * 10 + i + startLocation.y])
             }
         }
-        return hitLocationBoxObjects.filter(location => location.containedShip !== null).length > 0;
+        return hitLocationBoxObjects.filter(location => location.containedShip !== null).length > 0
     }
 }
 

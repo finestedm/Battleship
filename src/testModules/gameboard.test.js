@@ -76,20 +76,24 @@ test('gameboard place 2 ship with collision with other ship', () => {
     expect(newBoard.placeShip(newShip, { 'x': 2, 'y': 3 }, 'y')).toBe(`cannot place ship here - collision with other ship`)
 });
 
-test('gameboard place ship with collision with other ship 2', () => {
+test.only('gameboard place ship with collision with other ship 2', () => {
     const newBoard = new Gameboard();
     const newShip = newBoard.createNewShip('pies', 5);
+    const startLocation = newBoard.board[13];
     const newShip2 = newBoard.createNewShip('pies2', 3);
-    newBoard.placeShip(newShip2, { 'x': 2, 'y': 3 }, 'y')
-    expect(newBoard.placeShip(newShip, { 'x': 1, 'y': 3 }, 'x')).toBe(`cannot place ship here - collision with other ship`)
+    const startLocation2 = newBoard.board[43];
+    newBoard.placeShip(newShip, startLocation, 'x')
+    expect(newBoard.placeShip(newShip2, startLocation2, 'y')).toBe(`cannot place ship here - collision with other ship`)
 });
 
 test('gameboard place ship with no collision with other ship', () => {
     const newBoard = new Gameboard();
     const newShip = newBoard.createNewShip('pies', 5);
+    const startLocation = newBoard.board[3];
     const newShip2 = newBoard.createNewShip('pies2', 3);
-    newBoard.placeShip(newShip2, { 'x': 2, 'y': 3 }, 'y')
-    expect(newBoard.placeShip(newShip, { 'x': 3, 'y': 3 }, 'x')).toBe(undefined)
+    const startLocation2 = newBoard.board[50];
+    newBoard.placeShip(newShip, startLocation, 'x')
+    expect(newBoard.placeShip(newShip2, startLocation2, 'y')).toBe(undefined)
 });
 
 test('gameboard board ship receives attach and hit', () => {
@@ -122,7 +126,7 @@ test('gameboard all ships sunk', () => {
     expect(newBoard.reportEntireFleetStatus()).toBeTruthy()
 });
 
-test.only('check if any box taken', () => {
+test('check if any box taken', () => {
     const newBoard = new Gameboard();
     const newShip2 = newBoard.createNewShip('pies2', 3);
     const testBoxOccupies = newBoard.board[2]
