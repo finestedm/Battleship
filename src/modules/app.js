@@ -2,7 +2,7 @@ import { Player } from "./factories/player";
 import { createGameboardDOM, regenerateGameboard } from "./DOM";
 
 const playerOne = new Player('Paweł', false)
-const playerTwo = new Player('pieseł', false)
+const playerTwo = new Player('pieseł', true)
 
 
 function chooseShipLocation() {

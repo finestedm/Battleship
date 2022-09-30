@@ -4,38 +4,48 @@ import { players } from "./factories/player";
 const root = document.getElementById('content')
 root.classList = 'container'
 const gameBoardHolder = document.createElement('div');
-gameBoardHolder.className = 'row row-cols-2'
+gameBoardHolder.className = 'row'
 root.append(gameBoardHolder)
 
 export function createGameboardDOM(playerObject) {
 
     try {
-        const currentGameboard = document.querySelector(`#gameboard-${playerObject.name}`)
+        const currentGameboard = document.querySelector(`#section-${playerObject.name}`)
         currentGameboard.remove();
     } catch (error) {
         { }
     }
-    const GameboardDOM = document.createElement('section');
+    const playerPart = document.createElement('section')
+    playerPart.id = `section-${playerObject.name}`;
+    playerPart.className = 'col-sm row player-side';
+
+    const GameboardDOM = document.createElement('article');
     GameboardDOM.id = `gameboard-${playerObject.name}`;
-    GameboardDOM.className = 'container gameboard';
+    GameboardDOM.className = 'col-sm gameboard';
 
-    for (let x = 0; x < 10; x++) {
-        const setOfBoxes = playerObject.gameboard.board[x];
-        for (let y = 0; y < setOfBoxes.length; y++) {
-            const box = setOfBoxes[y]
-            GameboardDOM.append(createBoardBoxDOM(box, playerObject, x, y));
-        }
-    }
+    playerPart.append(GameboardDOM, createListOfUnusedShips(playerObject));
 
-    gameBoardHolder.append(GameboardDOM, createListOfUnusedShips(playerObject))
+    playerObject.gameboard.board.forEach(box => GameboardDOM.append(createBoardBoxDOM(box, playerObject)));
+
+    gameBoardHolder.append(playerPart)
+
+    getBoxesDOM(playerObject)
+
 }
 
-function createBoardBoxDOM(box, playerObject, x, y) {
+function createBoardBoxDOM(box, playerObject) {
     const boardBox = document.createElement('button')
     boardBox.type = 'button';
-    boardBox.className = 'box'
-    boardBox.innerText = box
-    boardBox.addEventListener('click', () => playerObject.gameboard.receiveAttack({ x: x, y: y }))
+    boardBox.className = `box ${playerObject.name}`;
+    boardBox.innerText = box.containedShip;
+    boardBox.setAttribute('dataset', `${playerObject.name}`);
+    boardBox.addEventListener('click', () => {
+        if (((playerObject.gameboard.shipObjects.filter(ship => !ship.alreadyUsed)).length) === 0) {
+            playerObject.isPC && playerObject.gameboard.receiveAttack(`{ x: ${box.x}, y: ${box.y} }`)
+        } else {
+            alert('first place all your ships')
+        }
+    })
     return boardBox
 }
 
@@ -46,13 +56,13 @@ export function regenerateGameboard() {
 export function createListOfUnusedShips(playerObject) {
     try {
         var existingUnusedShips = document.getElementById(`unused-ships-${playerObject.name}`)
-        console.log(existingUnusedShips)
         existingUnusedShips.remove();
     } catch (error) {
         { }
     }
     const unusedShips = document.createElement('ul');
-    unusedShips.id = `unused-ships-${playerObject.name}`
+    unusedShips.id = `unused-ships-${playerObject.name}`;
+    unusedShips.className = `col-sm`
     playerObject.gameboard.shipObjects.forEach(ship => {
         !ship.alreadyUsed && unusedShips.append(createShipDiv(playerObject, ship))
     });
@@ -63,9 +73,18 @@ function createShipDiv(playerObject, ship) {
     const shipContainer = document.createElement('li')
     shipContainer.innerText = ship.name;
     shipContainer.addEventListener('click', () => {
-        console.log('eee');
-        playerObject.gameboard.placeShip(ship, { x: 1, y: 2 }, 'x')
+        playerObject.gameboard.placeShip(ship, { x: (Math.floor(Math.random() * 9)), y: (Math.floor(Math.random() * 9)) }, 'x')
+
         regenerateGameboard(playerObject);
     })
     return shipContainer
 }
+
+function getBoxesDOM(playerObject) {
+    //.gameboard.shipObjects.filter(ship => !ship.alreadyUsed))
+
+    const boxes = document.querySelectorAll(`.box`) //select only players boxes
+    boxes.forEach(box => box.addEventListener('mouseover', (e) => {
+        console.log(boxes)
+    }))
+};

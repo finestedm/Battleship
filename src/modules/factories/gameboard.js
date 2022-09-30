@@ -1,15 +1,9 @@
 import { Ship } from './ship.js';
-
+import { Box, findBoxObject } from './box.js';
 
 export const boardSize = 10;
 
 
-function checkIfAnyBoxTaken(ship, board, startLocation, direction) {
-    for (let i = 0; i < ship.length; i++) {
-        if (board[(startLocation.x) + (i * (direction === 'x'))][startLocation.y + (i * (direction === 'y'))] !== null)
-            return true
-    }
-}
 
 export function findShipObjectWithName(shipObjects, name) {
     return shipObjects.filter(ship => ship.name === name)[0]
@@ -33,10 +27,9 @@ export class Gameboard {
     }
 
     init() {
-        for (let x = 0; x < boardSize; x++) {
-            this.board[x] = []
-            for (let y = 0; y < boardSize; y++) {
-                this.board[x][y] = null
+        for (let x = 1; x <= boardSize; x++) {
+            for (let y = 1; y <= boardSize; y++) {
+                this.board.push(new Box(x, y))
             }
         }
     }
@@ -47,7 +40,7 @@ export class Gameboard {
         return newShip  // do usunięcia po testach
     }
 
-    placeShip(ship, startLocation, direction) {
+    placeShip(ship, startLocation, direction) { //ensure that startlocation is a Box Object
         if (startLocation[direction] + ship.length > boardSize) {
             return "cannot place ship here" // later change this to function so that it changes all left boxes class to show X
         } else if (checkIfAnyBoxTaken(ship, this.board, startLocation, direction)) {
@@ -82,6 +75,17 @@ export class Gameboard {
     }
 
 
+    checkIfAnyBoxTaken(ship, startLocation, direction) {
+        var hitLocationBoxObjects = [];
+        for (let i = 0; i < ship.length; i++) {
+            if (direction === 'x') {
+                hitLocationBoxObjects.push(this.board[((startLocation.x - 1) * 10) + (i * 10)])
+            } else if (direction === 'y') {
+                hitLocationBoxObjects.push(this.board[(startLocation.y - 1) + (i)])
+            }
+        }
+        return hitLocationBoxObjects.filter(location => location.containedShip !== null).length > 0;
+    }
 }
 
 

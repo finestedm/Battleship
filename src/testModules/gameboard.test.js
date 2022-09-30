@@ -1,4 +1,4 @@
-import { Gameboard, findShipObjectWithName } from '../modules/factories/gameboard';
+import { Gameboard, findShipObjectWithName, checkIfAnyBoxTaken } from '../modules/factories/gameboard';
 import { Ship } from '../modules/factories/ship';
 
 // export const newShip = new Ship('pies', 5);
@@ -121,3 +121,12 @@ test('gameboard all ships sunk', () => {
     newBoard.receiveAttack({ 'x': 2, 'y': 5 })
     expect(newBoard.reportEntireFleetStatus()).toBeTruthy()
 });
+
+test.only('check if any box taken', () => {
+    const newBoard = new Gameboard();
+    const newShip2 = newBoard.createNewShip('pies2', 3);
+    const testBoxOccupies = newBoard.board[2]
+    testBoxOccupies.containedShip = 'pies'
+    const testBox = newBoard.board[20]
+    expect(newBoard.checkIfAnyBoxTaken(newShip2, testBox, 'y')).toBeTruthy();
+})
