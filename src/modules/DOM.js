@@ -46,6 +46,8 @@ function createBoardBoxDOM(box, playerObject) {
     const boardBox = document.createElement('button')
     boardBox.type = 'button';
     boardBox.className = `box ${playerObject.name}`;
+    // change color if the location is hit
+    (box.isHit) && (box.containedShip === null ? boardBox.classList.add('missed') : boardBox.classList.add('hit'))
     // change color if the boxes to ship color but only if the player is human
     box.containedShip && !playerObject.isPC && (boardBox.style.backgroundColor = box.containedShip.color);
     boardBox.addEventListener('click', () => {
@@ -128,7 +130,7 @@ function createDirectionChanger() {
     const directionChanger = document.createElement('button');
     directionChanger.innerText = `Current ship placing direction: ${shipPlacingDirection}`;
     directionChanger.id = 'direction-changer'
-    directionChanger.className = "text-center btn btn-primary"
+    directionChanger.className = "row text-center btn btn-primary"
     directionChanger.addEventListener('click', () => {
         shipPlacingDirection === 'x' ? shipPlacingDirection = 'y' : shipPlacingDirection = 'x'
         directionChanger.textContent = `Current ship placing direction: ${shipPlacingDirection}`;
