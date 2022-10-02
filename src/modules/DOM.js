@@ -1,26 +1,36 @@
 import { boardSize, Gameboard } from "./factories/gameboard"
 import { players } from "./factories/player";
 
+var shipPlacingDirection = 'x'
+
 const root = document.getElementById('content')
 root.classList = 'container'
 const gameBoardHolder = document.createElement('div');
 gameBoardHolder.className = 'row'
-root.append(gameBoardHolder)
+root.append(gameBoardHolder, createDirectionChanger())
 
-const direction = 'x'           // for now use constant direction
 
 export function createGameboardDOM(playerObject) {
-
+    //reset the board
     try {
         const currentGameboard = document.querySelector(`#section-${playerObject.name}`)
         currentGameboard.remove();
     } catch (error) {
         { }
     }
+
+    // remove direction changer when all ships are placed
+    var onlyHumanPlayer = (players.filter(player => !player.isPC))
+    const unusedShipsOfHumanPlayer = onlyHumanPlayer.reduce(
+        (previousValue, currentValue) => previousValue + findUnplacedShips(currentValue).length,
+        0);
+    unusedShipsOfHumanPlayer === 0 && removeDirectionChanger()
+
+    //create each player side
     const playerPart = document.createElement('section')
     playerPart.id = `section-${playerObject.name}`;
     playerPart.className = 'col-sm row player-side';
-
+    // create player gameboard
     const GameboardDOM = document.createElement('article');
     GameboardDOM.id = `gameboard-${playerObject.name}`;
     GameboardDOM.className = 'col-sm gameboard';
@@ -41,7 +51,7 @@ function createBoardBoxDOM(box, playerObject) {
         if ((findUnplacedShips(playerObject).length) === 0) {
             playerObject.isPC && playerObject.gameboard.receiveAttack(box)
         } else {
-            playerObject.gameboard.placeShip(findUnplacedShips(playerObject).pop(), box, direction)
+            playerObject.gameboard.placeShip(findUnplacedShips(playerObject).pop(), box, shipPlacingDirection)
         }
         regenerateGameboard()
     })
@@ -49,7 +59,7 @@ function createBoardBoxDOM(box, playerObject) {
     boardBox.addEventListener('mouseover', () => {
         const shipToPlace = findUnplacedShips(playerObject)[findUnplacedShips(playerObject).length - 1];        // takes last unused ship
         const boxes = getAllBoxes(playerObject);
-        shipToPlace && hoverPlacingEffect(playerObject, shipToPlace, box, boxes, direction); // hover effect is only invoked when there is still a ship not placed
+        shipToPlace && hoverPlacingEffect(playerObject, shipToPlace, box, boxes, shipPlacingDirection); // hover effect is only invoked when there is still a ship not placed
     })
 
     boardBox.addEventListener('mouseout', () => {
@@ -57,12 +67,12 @@ function createBoardBoxDOM(box, playerObject) {
         boxes.forEach(box => box.classList.remove('hover'))
     })
 
-
     return boardBox
 }
 
 export function regenerateGameboard() {
     players.forEach(playerObject => createGameboardDOM(playerObject))
+
 }
 
 export function createListOfUnusedShips(playerObject) {
@@ -110,4 +120,27 @@ function getAllBoxes(playerObject) {
 
 function findUnplacedShips(playerObject) {
     return playerObject.gameboard.shipObjects.filter(ship => !ship.alreadyUsed)
+}
+
+function createDirectionChanger() {
+    console.log(shipPlacingDirection)
+    const directionChanger = document.createElement('button');
+    directionChanger.innerText = `Current ship placing direction: ${shipPlacingDirection}`;
+    directionChanger.id = 'direction-changer'
+    directionChanger.className = "text-center btn btn-primary"
+    directionChanger.addEventListener('click', () => {
+        shipPlacingDirection === 'x' ? shipPlacingDirection = 'y' : shipPlacingDirection = 'x'
+        directionChanger.textContent = `Current ship placing direction: ${shipPlacingDirection}`;
+    })
+    return directionChanger
+}
+
+function removeDirectionChanger() {
+    try {
+        const directionChanger = document.getElementById('direction-changer');
+        directionChanger.remove()
+    } catch (e) {
+
+    }
+
 }

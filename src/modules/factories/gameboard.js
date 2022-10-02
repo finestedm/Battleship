@@ -41,10 +41,10 @@ export class Gameboard {
     }
 
     placeShip(ship, startLocation, direction) { //ensure that startlocation is a Box Object
-        if (startLocation.direction + ship.length > boardSize) {
-            return "cannot place ship here" // later change this to function so that it changes all left boxes class to show X
+        if (startLocation[direction] + ship.length > boardSize) {
+            return false // later change this to function so that it changes all left boxes class to show X
         } else if (this.checkIfAnyBoxTaken(ship, startLocation, direction)) {
-            return "cannot place ship here - collision with other ship"
+            return false
         } else {
             for (let i = 0; i < ship.length; i++) {
                 if (direction === 'x') {
@@ -54,6 +54,7 @@ export class Gameboard {
                 }
             } // change value of the taken location to ship name along x or y axis 
             ship.alreadyUsed = true;
+            return true
         }
     }
 

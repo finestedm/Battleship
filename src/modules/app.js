@@ -4,16 +4,16 @@ import { createGameboardDOM, regenerateGameboard } from "./DOM";
 const playerOne = new Player('Paweł', false)
 const playerTwo = new Player('pieseł', true)
 
-
-function chooseShipLocation() {
-
-}
-
 function gameLoop() {
     regenerateGameboard()
 
-    playerTwo.gameboard.placeShip(playerTwo.gameboard.shipObjects[0], { x: 2, y: 3 }, 'y')
-    playerTwo.gameboard.placeShip(playerTwo.gameboard.shipObjects[1], { x: 2, y: 9 }, 'x')
+    var unplacedPlayerTwoShips = playerTwo.gameboard.shipObjects.filter(ship => !ship.alreadyUsed);
+
+    while (unplacedPlayerTwoShips.length > 0) {
+        playerTwo.gameboard.placeShip(unplacedPlayerTwoShips[unplacedPlayerTwoShips.length - 1], generateRandomStartingLocation(), generateRandomDirection()) && unplacedPlayerTwoShips.pop()
+    }
+
+
 
     regenerateGameboard()
 
@@ -22,3 +22,11 @@ function gameLoop() {
 };
 
 gameLoop()
+
+function generateRandomStartingLocation() {
+    return { 'x': Math.floor(Math.random() * 9), 'y': Math.floor(Math.random() * 9) }
+}
+
+function generateRandomDirection() {
+    return Math.round(Math.random()) ? 'x' : 'y'
+}
