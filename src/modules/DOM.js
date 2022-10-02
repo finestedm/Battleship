@@ -1,4 +1,4 @@
-import { Gameboard } from "./factories/gameboard"
+import { boardSize, Gameboard } from "./factories/gameboard"
 import { players } from "./factories/player";
 
 const root = document.getElementById('content')
@@ -6,6 +6,8 @@ root.classList = 'container'
 const gameBoardHolder = document.createElement('div');
 gameBoardHolder.className = 'row'
 root.append(gameBoardHolder)
+
+const direction = 'x'           // for now use constant direction
 
 export function createGameboardDOM(playerObject) {
 
@@ -28,25 +30,34 @@ export function createGameboardDOM(playerObject) {
     playerObject.gameboard.board.forEach(box => GameboardDOM.append(createBoardBoxDOM(box, playerObject)));
 
     gameBoardHolder.append(playerPart)
-
-    getBoxesDOM(playerObject)
-
 }
 
 function createBoardBoxDOM(box, playerObject) {
     const boardBox = document.createElement('button')
     boardBox.type = 'button';
     boardBox.className = `box ${playerObject.name}`;
-    console.log(box)
     box.containedShip && (boardBox.style.backgroundColor = box.containedShip.color);
-    boardBox.setAttribute('dataset', `${playerObject.name}`);
-    boardBox.addEventListener('click', (e) => {
-        if (((playerObject.gameboard.shipObjects.filter(ship => !ship.alreadyUsed)).length) === 0) {
+    boardBox.addEventListener('click', () => {
+        if ((findUnplacedShips(playerObject).length) === 0) {
             playerObject.isPC && playerObject.gameboard.receiveAttack(box)
         } else {
-            alert('first place all your ships')
+            playerObject.gameboard.placeShip(findUnplacedShips(playerObject).pop(), box, direction)
         }
+        regenerateGameboard()
     })
+
+    boardBox.addEventListener('mouseover', () => {
+        const shipToPlace = findUnplacedShips(playerObject)[findUnplacedShips(playerObject).length - 1];        // takes last unused ship
+        const boxes = getAllBoxes(playerObject);
+        shipToPlace && hoverPlacingEffect(playerObject, shipToPlace, box, boxes, direction); // hover effect is only invoked when there is still a ship not placed
+    })
+
+    boardBox.addEventListener('mouseout', () => {
+        const boxes = getAllBoxes(playerObject);
+        boxes.forEach(box => box.classList.remove('hover'))
+    })
+
+
     return boardBox
 }
 
@@ -64,15 +75,15 @@ export function createListOfUnusedShips(playerObject) {
     const unusedShips = document.createElement('ul');
     unusedShips.id = `unused-ships-${playerObject.name}`;
     unusedShips.className = `col-sm`
-    playerObject.gameboard.shipObjects.forEach(ship => {
-        !ship.alreadyUsed && unusedShips.append(createShipDiv(playerObject, ship))
+    findUnplacedShips(playerObject).forEach(ship => {
+        unusedShips.append(createShipDiv(playerObject, ship))
     });
     return unusedShips
 }
 
 function createShipDiv(playerObject, ship) {
     const shipContainer = document.createElement('li')
-    shipContainer.innerText = ship.name;
+    shipContainer.innerText = ship.name + ', length: ' + ship.length;
     shipContainer.addEventListener('click', () => {
         playerObject.gameboard.placeShip(ship, { x: (Math.floor(Math.random() * 9)), y: (Math.floor(Math.random() * 9)) }, 'x')
 
@@ -81,11 +92,22 @@ function createShipDiv(playerObject, ship) {
     return shipContainer
 }
 
-function getBoxesDOM(playerObject) {
-    //.gameboard.shipObjects.filter(ship => !ship.alreadyUsed))
+function hoverPlacingEffect(playerObject, shipObject, box, boxes, direction) {
+    if ((shipObject.length + box[direction] <= boardSize) && (!playerObject.gameboard.checkIfAnyBoxTaken(shipObject, box, direction))) {
+        for (let i = 0; i < shipObject.length; i++) {
+            if (direction === 'x') {
+                boxes[((box.x) * 10) + (i * 10) + (box.y)].classList.add('hover')
+            } else if (direction === 'y') {
+                boxes[(box.x * 10 + (i)) + box.y].classList.add('hover')
+            }
+        }
+    }
+}
 
-    const boxes = document.querySelectorAll(`.box`) //select only players boxes
-    boxes.forEach(box => box.addEventListener('mouseover', (e) => {
-        console.log(boxes)
-    }))
-};
+function getAllBoxes(playerObject) {
+    return document.querySelectorAll(`.box.${playerObject.name}`);
+}
+
+function findUnplacedShips(playerObject) {
+    return playerObject.gameboard.shipObjects.filter(ship => !ship.alreadyUsed)
+}

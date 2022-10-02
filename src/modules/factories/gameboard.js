@@ -60,13 +60,14 @@ export class Gameboard {
 
     receiveAttack(box) {
         var shipInBox = this.board[box.x * 10 + box.y].containedShip
-        if (this.hitLocations.includes(box)) {
+        if (box.isHit) {
             return illegalMove()
         } else if (shipInBox === null) {
             this.missedLocations.push(box)
         } else {
             shipInBox.hit(box)
         }
+        box.isHit = true;
     }
 
     reportEntireFleetStatus() {

@@ -12,10 +12,6 @@ function chooseShipLocation() {
 function gameLoop() {
     regenerateGameboard()
 
-    console.log(playerOne.gameboard.shipObjects)
-
-    regenerateGameboard()
-
     playerTwo.gameboard.placeShip(playerTwo.gameboard.shipObjects[0], { x: 2, y: 3 }, 'y')
     playerTwo.gameboard.placeShip(playerTwo.gameboard.shipObjects[1], { x: 2, y: 9 }, 'x')
 
