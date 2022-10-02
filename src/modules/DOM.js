@@ -46,7 +46,8 @@ function createBoardBoxDOM(box, playerObject) {
     const boardBox = document.createElement('button')
     boardBox.type = 'button';
     boardBox.className = `box ${playerObject.name}`;
-    box.containedShip && (boardBox.style.backgroundColor = box.containedShip.color);
+    // change color if the boxes to ship color but only if the player is human
+    box.containedShip && !playerObject.isPC && (boardBox.style.backgroundColor = box.containedShip.color);
     boardBox.addEventListener('click', () => {
         if ((findUnplacedShips(playerObject).length) === 0) {
             playerObject.isPC && playerObject.gameboard.receiveAttack(box)

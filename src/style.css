@@ -5,5 +5,20 @@
 }
 
 .hover {
-    background-color: blueviolet;
+    animation-name: backgroundColorPalette;
+    animation-duration: .25s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+@keyframes backgroundColorPalette {
+    0% {
+        background: #9055ee;
+    }
+
+    100% {
+        background: #d7c7f1;
+    }
+
 }
