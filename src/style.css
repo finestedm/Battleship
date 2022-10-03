@@ -30,3 +30,11 @@
     background-color: blue;
 
 }
+
+section {
+    transform: 1;
+}
+
+.hidden {
+    transform: 0;
+}

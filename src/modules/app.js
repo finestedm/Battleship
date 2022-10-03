@@ -6,18 +6,14 @@ const playerTwo = new Player('pieseł', true)
 
 function gameLoop() {
     regenerateGameboard()
-
     var unplacedPlayerTwoShips = playerTwo.gameboard.shipObjects.filter(ship => !ship.alreadyUsed);
 
     while (unplacedPlayerTwoShips.length > 0) {
         playerTwo.gameboard.placeShip(unplacedPlayerTwoShips[unplacedPlayerTwoShips.length - 1], generateRandomStartingLocation(), generateRandomDirection()) && unplacedPlayerTwoShips.pop()
     }
-
-
-
     regenerateGameboard()
 
-    var activePlayer = playerOne;
+
 
 };
 
@@ -29,4 +25,9 @@ function generateRandomStartingLocation() {
 
 function generateRandomDirection() {
     return Math.round(Math.random()) ? 'x' : 'y'
+}
+
+export function letPCAttack() {
+    playerOne.gameboard.receiveAttack(playerOne.gameboard.board[Math.floor(Math.random() * 99)]);
+    regenerateGameboard()
 }

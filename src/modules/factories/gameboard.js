@@ -69,6 +69,7 @@ export class Gameboard {
             shipInBox.hit(box)
         }
         box.isHit = true;
+        console.log(box)
     }
 
     reportEntireFleetStatus() {
