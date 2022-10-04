@@ -1,6 +1,6 @@
 import { boardSize, Gameboard } from "./factories/gameboard"
 import { players } from "./factories/player";
-import { letPCAttack } from "./app";
+import { letPCAttack, changePlayer, activePlayer } from "./app";
 
 var shipPlacingDirection = 'x'
 
@@ -53,13 +53,12 @@ function createBoardBoxDOM(box, playerObject) {
     box.containedShip && !playerObject.isPC && (boardBox.style.backgroundColor = box.containedShip.color);
     boardBox.addEventListener('click', () => {
         if ((findUnplacedShips(playerObject).length) === 0) {
-            if (playerObject.isPC) {
+            if (playerObject === activePlayer) {
                 playerObject.gameboard.receiveAttack(box)
-                letPCAttack()
-                    && console.log('ff')
+                changePlayer();
             }
         } else {
-            playerObject.gameboard.placeShip(findUnplacedShips(playerObject).pop(), box, shipPlacingDirection)
+            playerObject.gameboard.placeShip(findUnplacedShips(playerObject).slice(-1)[0], box, shipPlacingDirection)
         }
         regenerateGameboard()
     })
@@ -127,7 +126,7 @@ function getAllBoxes(playerObject) {
 }
 
 function findUnplacedShips(playerObject) {
-    return playerObject.gameboard.shipObjects.filter(ship => !ship.alreadyUsed)
+    return playerObject.gameboard.unusedShips
 }
 
 function createDirectionChanger() {

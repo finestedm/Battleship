@@ -1,5 +1,6 @@
 import { Ship } from './ship.js';
 import { Box, findBoxObject } from './box.js';
+import { letPCAttack } from '../app.js';
 
 export const boardSize = 10;
 
@@ -22,6 +23,7 @@ export class Gameboard {
         this.init();
         this.totalLengthOfShips = 0;
         this.shipObjects = [];
+        this.unusedShips = []
         this.hitLocations = []
         this.missedLocations = []
     }
@@ -37,7 +39,7 @@ export class Gameboard {
     createNewShip(name, length) {
         const newShip = new Ship(name, length)
         this.shipObjects.push(newShip)
-        return newShip  // do usunięcia po testach
+        this.unusedShips.push(newShip);
     }
 
     placeShip(ship, startLocation, direction) { //ensure that startlocation is a Box Object
@@ -53,11 +55,15 @@ export class Gameboard {
                     this.board[(startLocation.x * 10 + (i)) + startLocation.y].containedShip = ship
                 }
             } // change value of the taken location to ship name along x or y axis 
-            ship.alreadyUsed = true;
+            this.isUsed(ship);
             return true
         }
     }
 
+    isUsed() {
+        this.unusedShips.splice(this.unusedShips.indexOf(this), 1);
+        console.log(this.unusedShips)
+    }
 
     receiveAttack(box) {
         var shipInBox = this.board[box.x * 10 + box.y].containedShip
@@ -69,7 +75,6 @@ export class Gameboard {
             shipInBox.hit(box)
         }
         box.isHit = true;
-        console.log(box)
     }
 
     reportEntireFleetStatus() {

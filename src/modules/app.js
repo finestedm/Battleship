@@ -1,8 +1,14 @@
-import { Player } from "./factories/player";
+import { Player, players } from "./factories/player";
 import { createGameboardDOM, regenerateGameboard } from "./DOM";
 
 const playerOne = new Player('Paweł', false)
 const playerTwo = new Player('pieseł', true)
+export var activePlayer = playerTwo;
+
+export function changePlayer() {
+    activePlayer === playerOne ? activePlayer = playerTwo : activePlayer = playerOne;
+    activePlayer === playerOne && letPCAttack()
+}
 
 function gameLoop() {
     regenerateGameboard()
@@ -12,8 +18,6 @@ function gameLoop() {
         playerTwo.gameboard.placeShip(unplacedPlayerTwoShips[unplacedPlayerTwoShips.length - 1], generateRandomStartingLocation(), generateRandomDirection()) && unplacedPlayerTwoShips.pop()
     }
     regenerateGameboard()
-
-
 
 };
 
@@ -27,7 +31,8 @@ function generateRandomDirection() {
     return Math.round(Math.random()) ? 'x' : 'y'
 }
 
-export function letPCAttack() {
+function letPCAttack() {
     playerOne.gameboard.receiveAttack(playerOne.gameboard.board[Math.floor(Math.random() * 99)]);
+    changePlayer();
     regenerateGameboard()
 }

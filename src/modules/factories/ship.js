@@ -5,7 +5,6 @@ export class Ship {
         this.name = name;
         this.length = length;
         this.hitPositions = 0;
-        this.alreadyUsed = false;
         this.color = null;
         this.chooseShipColor()
     }
@@ -36,4 +35,6 @@ export class Ship {
     }
 
 }
+
+
 
