@@ -62,19 +62,23 @@ export class Gameboard {
 
     isUsed() {
         this.unusedShips.splice(this.unusedShips.indexOf(this), 1);
-        console.log(this.unusedShips)
     }
 
     receiveAttack(box) {
         var shipInBox = this.board[box.x * 10 + box.y].containedShip
+        var actionStatus = null;
         if (box.isHit) {
-            return illegalMove()
+            actionStatus = 'illegal move'
         } else if (shipInBox === null) {
             this.missedLocations.push(box)
+            box.isHit = true;
+            actionStatus = 'miss'
         } else {
             shipInBox.hit(box)
+            box.isHit = true;
+            actionStatus = 'hit'
         }
-        box.isHit = true;
+        return actionStatus;
     }
 
     reportEntireFleetStatus() {

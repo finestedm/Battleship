@@ -54,8 +54,9 @@ function createBoardBoxDOM(box, playerObject) {
     boardBox.addEventListener('click', () => {
         if ((findUnplacedShips(playerObject).length) === 0) {
             if (playerObject === activePlayer) {
-                playerObject.gameboard.receiveAttack(box)
-                changePlayer();
+                if (playerObject.gameboard.receiveAttack(box) !== 'illegal move') {
+                    changePlayer();
+                }
             }
         } else {
             playerObject.gameboard.placeShip(findUnplacedShips(playerObject).slice(-1)[0], box, shipPlacingDirection)

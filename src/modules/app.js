@@ -32,7 +32,10 @@ function generateRandomDirection() {
 }
 
 function letPCAttack() {
-    playerOne.gameboard.receiveAttack(playerOne.gameboard.board[Math.floor(Math.random() * 99)]);
-    changePlayer();
-    regenerateGameboard()
+    if (playerOne.gameboard.receiveAttack(playerOne.gameboard.board[Math.floor(Math.random() * 100)]) === 'illegal move') {
+        letPCAttack()
+    } else {
+        changePlayer();
+        regenerateGameboard()
+    }
 }
