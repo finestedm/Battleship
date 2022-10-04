@@ -10,18 +10,21 @@ export function changePlayer() {
     activePlayer === playerOne && letPCAttack()
 }
 
-function gameLoop() {
-    regenerateGameboard()
-    var unplacedPlayerTwoShips = playerTwo.gameboard.shipObjects.filter(ship => !ship.alreadyUsed);
+createGameboardDOM(playerOne)
 
-    while (unplacedPlayerTwoShips.length > 0) {
-        playerTwo.gameboard.placeShip(unplacedPlayerTwoShips[unplacedPlayerTwoShips.length - 1], generateRandomStartingLocation(), generateRandomDirection()) && unplacedPlayerTwoShips.pop()
+
+export function gameLoop() {
+
+    while (playerTwo.gameboard.unusedShips.length > 0) {
+        playerTwo.gameboard.placeShip(playerTwo.gameboard.unusedShips[playerTwo.gameboard.unusedShips.length - 1], generateRandomStartingLocation(), generateRandomDirection())
     }
     regenerateGameboard()
 
 };
 
-gameLoop()
+export function announceWinner() {
+    (playerOne.gameboard.reportEntireFleetStatus()) ? console.log('playerOne is winner') : console.log('playerTwo is winner')
+}
 
 function generateRandomStartingLocation() {
     return { 'x': Math.floor(Math.random() * 9), 'y': Math.floor(Math.random() * 9) }

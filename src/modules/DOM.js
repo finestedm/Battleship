@@ -1,6 +1,7 @@
 import { boardSize, Gameboard } from "./factories/gameboard"
 import { players } from "./factories/player";
 import { letPCAttack, changePlayer, activePlayer } from "./app";
+import { gameLoop, announceWinner } from "./app";
 
 var shipPlacingDirection = 'x'
 
@@ -34,9 +35,10 @@ export function createGameboardDOM(playerObject) {
     // create player gameboard
     const GameboardDOM = document.createElement('article');
     GameboardDOM.id = `gameboard-${playerObject.name}`;
-    GameboardDOM.className = 'col-sm gameboard';
+    GameboardDOM.className = 'col-sm gameboard justify-content-center';
 
-    playerPart.append(GameboardDOM, createListOfUnusedShips(playerObject));
+    playerPart.append(GameboardDOM)
+    playerObject.gameboard.unusedShips.length > 0 ? playerPart.append(createListOfUnusedShips(playerObject)) : {}
 
     playerObject.gameboard.board.forEach(box => GameboardDOM.append(createBoardBoxDOM(box, playerObject)));
 
@@ -46,22 +48,22 @@ export function createGameboardDOM(playerObject) {
 function createBoardBoxDOM(box, playerObject) {
     const boardBox = document.createElement('button')
     boardBox.type = 'button';
-    boardBox.className = `box ${playerObject.name}`;
+    boardBox.className = `box ${playerObject.name} justify-content-center`;
     // change color if the location is hit
     (box.isHit) && (box.containedShip === null ? boardBox.classList.add('missed') : boardBox.classList.add('hit'))
     // change color if the boxes to ship color but only if the player is human
     box.containedShip && !playerObject.isPC && (boardBox.style.backgroundColor = box.containedShip.color);
     boardBox.addEventListener('click', () => {
-        if ((findUnplacedShips(playerObject).length) === 0) {
-            if (playerObject === activePlayer) {
-                if (playerObject.gameboard.receiveAttack(box) !== 'illegal move') {
-                    changePlayer();
-                }
+        if (((findUnplacedShips(playerObject).length) === 0) && (playerObject === activePlayer)) {
+            if (playerObject.gameboard.receiveAttack(box) !== 'illegal move') {
+                changePlayer();
             }
+            regenerateGameboard()
         } else {
             playerObject.gameboard.placeShip(findUnplacedShips(playerObject).slice(-1)[0], box, shipPlacingDirection)
+            createGameboardDOM(playerObject)
+            playerObject.gameboard.unusedShips.length === 0 ? gameLoop() : {}
         }
-        regenerateGameboard()
     })
 
     boardBox.addEventListener('mouseover', () => {
@@ -79,6 +81,7 @@ function createBoardBoxDOM(box, playerObject) {
 }
 
 export function regenerateGameboard() {
+    players.forEach(playerObject => playerObject.gameboard.reportEntireFleetStatus() ? announceWinner() : {})
     players.forEach(playerObject => createGameboardDOM(playerObject))
 
 }
@@ -131,16 +134,20 @@ function findUnplacedShips(playerObject) {
 }
 
 function createDirectionChanger() {
-    console.log(shipPlacingDirection)
+    const directionChangerHolder = document.createElement('div');
+    directionChangerHolder.id = 'direction-changer-holder'
+    directionChangerHolder.className = "row text-center"
+
     const directionChanger = document.createElement('button');
     directionChanger.innerText = `Current ship placing direction: ${shipPlacingDirection}`;
     directionChanger.id = 'direction-changer'
-    directionChanger.className = "row text-center btn btn-primary"
+    directionChanger.className = "col-sm-4 text-center btn btn-primary"
     directionChanger.addEventListener('click', () => {
         shipPlacingDirection === 'x' ? shipPlacingDirection = 'y' : shipPlacingDirection = 'x'
         directionChanger.textContent = `Current ship placing direction: ${shipPlacingDirection}`;
     })
-    return directionChanger
+    directionChangerHolder.append(directionChanger)
+    return directionChangerHolder
 }
 
 function removeDirectionChanger() {

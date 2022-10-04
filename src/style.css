@@ -24,6 +24,16 @@
 
 .hit {
     background-color: red;
+    position: relative;
+}
+
+.hit::after {
+    content: '💣';
+    position: absolute;
+    top: -5px;
+    left: -3px;
+    height: 100%;
+    width: 100%;
 }
 
 .missed {
