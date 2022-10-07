@@ -1,7 +1,20 @@
+:root {
+    --base-color: #f1f3f7;
+    --text-color: #3b3f44;
+    --supp-color: #fffffe;
+    --acce-color: #7143ee;
+    --acc2-color: #2FBF71;
+    --acc3-color: #6290C3;
+}
+
+body {
+    background-color: var(--base-color) !important;
+}
+
 .gameboard {
     display: grid;
-    grid-template-columns: repeat(10, 20px);
-    grid-template-rows: repeat(10, 20px);
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(10, 30px);
 }
 
 .hover {
@@ -47,4 +60,10 @@ section {
 
 .hidden {
     transform: 0;
+}
+
+button {
+    border: 1px solid #0000003a;
+    background-color: var(--supp-color);
+    margin: 1px !important  ;
 }

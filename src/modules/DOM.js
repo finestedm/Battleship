@@ -31,7 +31,7 @@ export function createGameboardDOM(playerObject) {
     //create each player side
     const playerPart = document.createElement('section')
     playerPart.id = `section-${playerObject.name}`;
-    playerPart.className = 'col-sm row player-side';
+    playerPart.className = 'col-sm mt-5 ms-2 row align-items-center player-side';
     // create player gameboard
     const GameboardDOM = document.createElement('article');
     GameboardDOM.id = `gameboard-${playerObject.name}`;
@@ -95,7 +95,7 @@ export function createListOfUnusedShips(playerObject) {
     }
     const unusedShips = document.createElement('ul');
     unusedShips.id = `unused-ships-${playerObject.name}`;
-    unusedShips.className = `col-sm`
+    unusedShips.className = `text-center col-sm`
     findUnplacedShips(playerObject).forEach(ship => {
         unusedShips.append(createShipDiv(playerObject, ship))
     });
@@ -103,13 +103,9 @@ export function createListOfUnusedShips(playerObject) {
 }
 
 function createShipDiv(playerObject, ship) {
-    const shipContainer = document.createElement('li')
+    const shipContainer = document.createElement('li');
+    shipContainer.className = 'col'
     shipContainer.innerText = ship.name + ', length: ' + ship.length;
-    shipContainer.addEventListener('click', () => {
-        playerObject.gameboard.placeShip(ship, { x: (Math.floor(Math.random() * 9)), y: (Math.floor(Math.random() * 9)) }, 'x')
-
-        regenerateGameboard(playerObject);
-    })
     return shipContainer
 }
 
@@ -136,7 +132,8 @@ function findUnplacedShips(playerObject) {
 function createDirectionChanger() {
     const directionChangerHolder = document.createElement('div');
     directionChangerHolder.id = 'direction-changer-holder'
-    directionChangerHolder.className = "row text-center"
+    directionChangerHolder.className = "row mx-auto mt-3 justify-content-center text-center"
+    directionChangerHolder.innerHTML = '<h2> Change ship placing direction </h2>'
 
     const directionChanger = document.createElement('button');
     directionChanger.innerText = `Current ship placing direction: ${shipPlacingDirection}`;
@@ -152,7 +149,7 @@ function createDirectionChanger() {
 
 function removeDirectionChanger() {
     try {
-        const directionChanger = document.getElementById('direction-changer');
+        const directionChanger = document.getElementById('direction-changer-holder');
         directionChanger.remove()
     } catch (e) {
 
