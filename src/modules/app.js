@@ -17,11 +17,16 @@ var myModal = new bootstrap.Modal(document.getElementById("my-modal"), {});
 myModal.show()
 const nameButton = document.getElementById('btn-name-save')
 nameButton.addEventListener('click', () => {
-    const newPlayerName = document.getElementById('new-player-name').value;
-    playerOne.name = newPlayerName
-    myModal.hide()
+    const newPlayerNameInput = document.getElementById('new-player-name');
+    playerOne.name = newPlayerNameInput.value
+    if (newPlayerNameInput.validity.valid) {
+        myModal.hide()
+        createGameboardDOM(playerOne)
+        // } else if (!newPlayerNameInput.validity.valid) {
+        //     newPlayerNameInput.setCustomValidity("Please provide your name");
+        //     newPlayerNameInput.reportValidity();
+    }
 })
-createGameboardDOM(playerOne)
 
 export function gameLoop() {
 
