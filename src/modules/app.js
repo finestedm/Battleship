@@ -1,5 +1,7 @@
 import { Player, players } from "./factories/player";
 import { createGameboardDOM, regenerateGameboard } from "./DOM";
+import { showModal } from "./showModal";
+window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
 const playerOne = new Player('Paweł', false)
 const playerTwo = new Player('pieseł', true)
@@ -10,10 +12,19 @@ export function changePlayer() {
     activePlayer === playerOne && letPCAttack()
 }
 
+showModal();
+var myModal = new bootstrap.Modal(document.getElementById("my-modal"), {});
+myModal.show()
+const nameButton = document.getElementById('btn-name-save')
+nameButton.addEventListener('click', () => {
+    const newPlayerName = document.getElementById('new-player-name').value;
+    playerOne.name = newPlayerName
+    myModal.hide()
+})
 createGameboardDOM(playerOne)
 
-
 export function gameLoop() {
+
 
     while (playerTwo.gameboard.unusedShips.length > 0) {
         playerTwo.gameboard.placeShip(playerTwo.gameboard.unusedShips[playerTwo.gameboard.unusedShips.length - 1], generateRandomStartingLocation(), generateRandomDirection())
