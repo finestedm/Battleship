@@ -1,19 +1,22 @@
 import { Player, players } from "./factories/player";
 import { createGameboardDOM, regenerateGameboard } from "./DOM";
+// import { showModal } from "./showModal";
+// window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
-const playerOne = new Player('Paweł', false)
-const playerTwo = new Player('pieseł', true)
-export var activePlayer = playerTwo;
+
 
 export function changePlayer() {
     activePlayer === playerOne ? activePlayer = playerTwo : activePlayer = playerOne;
     activePlayer === playerOne && letPCAttack()
 }
 
+
+var playerOne = new Player('Paweł', false)
+var playerTwo = new Player('pieseł', true)
 createGameboardDOM(playerOne)
 
-
 export function gameLoop() {
+
 
     while (playerTwo.gameboard.unusedShips.length > 0) {
         playerTwo.gameboard.placeShip(playerTwo.gameboard.unusedShips[playerTwo.gameboard.unusedShips.length - 1], generateRandomStartingLocation(), generateRandomDirection())
@@ -21,6 +24,8 @@ export function gameLoop() {
     regenerateGameboard()
 
 };
+
+export var activePlayer = playerTwo;
 
 export function announceWinner() {
     (playerOne.gameboard.reportEntireFleetStatus()) ? console.log('playerOne is winner') : console.log('playerTwo is winner')
