@@ -7,13 +7,12 @@ window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 var playerOne = new Player('Paweł', false)
 var playerTwo = new Player('PC', true)
 export var activePlayer = playerTwo;
+activePlayer === playerOne ? activePlayer = playerTwo : activePlayer = playerOne;
 export function changePlayer() {
-    activePlayer === playerOne ? activePlayer = playerTwo : activePlayer = playerOne;
     activePlayer === playerOne && letPCAttack()
 }
 
-
-export function gameLoop() {
+(function gameLoop() {
 
     showModal();
     var myModal = new bootstrap.Modal(document.getElementById("my-modal"), {});
@@ -32,7 +31,7 @@ export function gameLoop() {
             createGameboardDOM(playerOne)
         }
     })
-};
+})();
 
 function newPlayerNameValidation() {
     const newPlayerNameInput = document.getElementById('new-player-name');
@@ -79,5 +78,3 @@ function letPCAttack() {
         regenerateGameboard()
     }
 }
-
-gameLoop()
