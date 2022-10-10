@@ -11,7 +11,6 @@ const gameBoardHolder = document.createElement('div');
 gameBoardHolder.className = 'row'
 root.append(gameBoardHolder, createDirectionChanger())
 
-
 export function createGameboardDOM(playerObject) {
     //reset the board
     try {
