@@ -1,13 +1,7 @@
 import { Player, players } from "./factories/player";
 import { createGameboardDOM, regenerateGameboard } from "./DOM";
-<<<<<<< HEAD
-// import { showModal } from "./showModal";
-// window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
-
-=======
 import { showModal } from "./showModal";
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
->>>>>>> startScreen
 
 
 export function changePlayer() {
@@ -15,12 +9,8 @@ export function changePlayer() {
     activePlayer === playerOne && letPCAttack()
 }
 
-<<<<<<< HEAD
-
 var playerOne = new Player('Paweł', false)
 var playerTwo = new Player('pieseł', true)
-createGameboardDOM(playerOne)
-=======
 showModal();
 var myModal = new bootstrap.Modal(document.getElementById("my-modal"), {});
 myModal.show()
@@ -36,7 +26,6 @@ nameButton.addEventListener('click', () => {
         //     newPlayerNameInput.reportValidity();
     }
 })
->>>>>>> startScreen
 
 export function gameLoop() {
 
