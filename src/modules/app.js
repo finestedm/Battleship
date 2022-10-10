@@ -1,6 +1,6 @@
 import { Player, players } from "./factories/player";
 import { createGameboardDOM, regenerateGameboard } from "./DOM";
-import { showModal } from "./showModal";
+import { showModal, bootstrapValidation } from "./showModal";
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
 
@@ -15,10 +15,11 @@ showModal();
 var myModal = new bootstrap.Modal(document.getElementById("my-modal"), {});
 myModal.show()
 const nameButton = document.getElementById('btn-name-save')
+const newPlayerNameInput = document.getElementById('new-player-name');
 nameButton.addEventListener('click', () => {
-    const newPlayerNameInput = document.getElementById('new-player-name');
-    playerOne.name = newPlayerNameInput.value
+    bootstrapValidation()
     if (newPlayerNameInput.validity.valueMissing) {
+        playerOne.name = newPlayerNameInput.value
         newPlayerNameInput.setCustomValidity("Please provide your name");
         newPlayerNameInput.reportValidity();
     } else if (newPlayerNameInput.validity.patternMismatch) {
@@ -31,25 +32,6 @@ nameButton.addEventListener('click', () => {
     }
 });
 
-(function () {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-})();
 
 export function gameLoop() {
 
