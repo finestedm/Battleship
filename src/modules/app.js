@@ -5,7 +5,7 @@ window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
 
 var playerOne = new Player('Paweł', false)
-var playerTwo = new Player('pieseł', true)
+var playerTwo = new Player('PC', true)
 export var activePlayer = playerTwo;
 export function changePlayer() {
     activePlayer === playerOne ? activePlayer = playerTwo : activePlayer = playerOne;
