@@ -33,14 +33,15 @@ export function createGameboardDOM(playerObject) {
     playerPart.className = 'col-sm mt-5 ms-2 row align-items-center player-side';
     // create player gameboard
     const GameboardDOM = document.createElement('article');
+    const playerSideHeader = document.createElement('h4')
+    playerSideHeader.innerText = `${playerObject.name}'s board`
+    playerSideHeader.className = 'text-center'
     GameboardDOM.id = `gameboard-${playerObject.name}`;
     GameboardDOM.className = 'col-sm gameboard justify-content-center';
 
-    playerPart.append(GameboardDOM)
+    playerPart.append(playerSideHeader, GameboardDOM)
     playerObject.gameboard.unusedShips.length > 0 ? playerPart.append(createListOfUnusedShips(playerObject)) : {}
-
     playerObject.gameboard.board.forEach(box => GameboardDOM.append(createBoardBoxDOM(box, playerObject)));
-
     gameBoardHolder.append(playerPart)
 }
 

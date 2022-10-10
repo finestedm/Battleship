@@ -20,7 +20,7 @@ export class Ship {
     chooseShipColor() {
         switch (this.length) {
             case 4:
-                this.color = 'red'
+                this.color = 'purple'
                 break;
             case 3:
                 this.color = 'orange'
