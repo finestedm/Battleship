@@ -18,14 +18,38 @@ const nameButton = document.getElementById('btn-name-save')
 nameButton.addEventListener('click', () => {
     const newPlayerNameInput = document.getElementById('new-player-name');
     playerOne.name = newPlayerNameInput.value
-    if (newPlayerNameInput.validity.valid) {
+    if (newPlayerNameInput.validity.valueMissing) {
+        newPlayerNameInput.setCustomValidity("Please provide your name");
+        newPlayerNameInput.reportValidity();
+    } else if (newPlayerNameInput.validity.patternMismatch) {
+        newPlayerNameInput.setCustomValidity("Please provide your name without numbers nor special characters");
+        newPlayerNameInput.reportValidity();
+    } else {
+        newPlayerNameInput.setCustomValidity('');
         myModal.hide()
         createGameboardDOM(playerOne)
-        // } else if (!newPlayerNameInput.validity.valid) {
-        //     newPlayerNameInput.setCustomValidity("Please provide your name");
-        //     newPlayerNameInput.reportValidity();
     }
-})
+});
+
+(function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+})();
 
 export function gameLoop() {
 
