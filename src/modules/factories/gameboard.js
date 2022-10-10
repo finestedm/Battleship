@@ -81,7 +81,7 @@ export class Gameboard {
         return actionStatus;
     }
 
-    reportEntireFleetStatus() {
+    reportEntireFleetSunk() {
         return this.shipObjects.every(ship => ship.isSunk() === true)
     }
 

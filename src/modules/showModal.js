@@ -13,7 +13,7 @@ export function showModal() {
                     <div class="modal-body">
                         <div class="input-group">
                             <span class="input-group-text">Player Name</span>
-                            <input type='text' id='new-player-name' class="form-control" required aria-label="Player name" placeholder='name' pattern='[a-zA-Z]+'></>
+                            <input type='text' id='new-player-name' class="form-control" required aria-label="Player name" placeholder='Player name' pattern='[a-zA-Z]+'></>
                          </div>
                     </div>
                     <div class="modal-footer">
@@ -23,9 +23,12 @@ export function showModal() {
             </div>
         </div>`
     body.append(modal)
+
+    const playerNameInput = document.getElementById('new-player-name');
+    playerNameInput.value = 'Human'
 }
 
-export function bootstrapValidation () {
+export function bootstrapValidation() {
     'use strict'
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to

@@ -1,6 +1,6 @@
 import { boardSize, Gameboard } from "./factories/gameboard"
 import { players } from "./factories/player";
-import { letPCAttack, changePlayer, activePlayer } from "./app";
+import { letPCAttack, changePlayer, activePlayer, placeAllPCShips } from "./app";
 import { gameLoop, announceWinner } from "./app";
 
 var shipPlacingDirection = 'x'
@@ -59,9 +59,14 @@ function createBoardBoxDOM(box, playerObject) {
             }
             regenerateGameboard()
         } else {
-            playerObject.gameboard.placeShip(findUnplacedShips(playerObject).slice(-1)[0], box, shipPlacingDirection)
-            createGameboardDOM(playerObject)
-            playerObject.gameboard.unusedShips.length === 0 ? gameLoop() : {}
+            if (playerObject.gameboard.unusedShips.length > 1) {
+                playerObject.gameboard.placeShip(findUnplacedShips(playerObject).slice(-1)[0], box, shipPlacingDirection)
+                createGameboardDOM(playerObject)
+            } else if (playerObject.gameboard.unusedShips.length === 1) {   // with the last ship we can generate playerTwo part and begin game
+                playerObject.gameboard.placeShip(findUnplacedShips(playerObject).slice(-1)[0], box, shipPlacingDirection)
+                regenerateGameboard()
+                placeAllPCShips()
+            }
         }
     })
 
@@ -80,9 +85,8 @@ function createBoardBoxDOM(box, playerObject) {
 }
 
 export function regenerateGameboard() {
-    players.forEach(playerObject => playerObject.gameboard.reportEntireFleetStatus() ? announceWinner() : {})
+    players.forEach(playerObject => playerObject.gameboard.reportEntireFleetSunk() ? announceWinner(playerObject) : {})
     players.forEach(playerObject => createGameboardDOM(playerObject))
-
 }
 
 export function createListOfUnusedShips(playerObject) {
@@ -120,7 +124,7 @@ function hoverPlacingEffect(playerObject, shipObject, box, boxes, direction) {
     }
 }
 
-function getAllBoxes(playerObject) {
+export function getAllBoxes(playerObject) {
     return document.querySelectorAll(`.box.${playerObject.name}`);
 }
 
