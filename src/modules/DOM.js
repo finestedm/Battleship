@@ -100,7 +100,7 @@ export function createListOfUnusedShips(playerObject) {
     const unusedShips = document.createElement('ul');
     unusedShips.id = `unused-ships-${playerObject.name}`;
     unusedShips.className = `text-center col-sm`
-    findUnplacedShips(playerObject).forEach(ship => {
+    playerObject.gameboard.unusedShips.forEach(ship => {
         unusedShips.append(createShipDiv(playerObject, ship))
     });
     return unusedShips

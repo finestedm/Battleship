@@ -12,9 +12,11 @@ export class Player {
     }
 
     init() {
-        for (let i = 2; i <= 5; i++) {
-            this.gameboard.createNewShip(`Ship${i - 1}`, i);
-        }
+        this.gameboard.createNewShip(`Destroyer`, 2)
+        this.gameboard.createNewShip(`Submarine`, 3)
+        this.gameboard.createNewShip(`Cruiser`, 3)
+        this.gameboard.createNewShip(`Battleship`, 4)
+        this.gameboard.createNewShip(`Carrier`, 5)
     }
 
     attack() {
