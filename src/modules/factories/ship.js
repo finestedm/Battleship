@@ -29,7 +29,7 @@ export class Ship {
                 this.color = 'yellow'
                 break;
             default:
-                this.color = 'black'
+                this.color = 'gray'
                 break;
         }
     }

@@ -97,18 +97,22 @@ export function createListOfUnusedShips(playerObject) {
     } catch (error) {
         { }
     }
+    const unusedShipsContainer = document.createElement('div');
+    unusedShipsContainer.innerHTML = '<h5>Place these ships:</h5>'
+    unusedShipsContainer.className = 'text-center col-sm'
     const unusedShips = document.createElement('ul');
     unusedShips.id = `unused-ships-${playerObject.name}`;
-    unusedShips.className = `text-center col-sm`
+    unusedShips.className = `text-center col-sm list-unstyled`
+    unusedShipsContainer.append(unusedShips);
     playerObject.gameboard.unusedShips.forEach(ship => {
         unusedShips.append(createShipDiv(playerObject, ship))
     });
-    return unusedShips
+    return unusedShipsContainer
 }
 
 function createShipDiv(playerObject, ship) {
     const shipContainer = document.createElement('li');
-    shipContainer.className = 'col'
+    shipContainer.className = 'col ship-to-place'
     shipContainer.innerText = ship.name + ', length: ' + ship.length;
     return shipContainer
 }

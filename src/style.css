@@ -32,7 +32,6 @@ body {
     100% {
         background: #d7c7f1;
     }
-
 }
 
 .hit {
@@ -51,7 +50,6 @@ body {
 
 .missed {
     background-color: blue;
-
 }
 
 section {
@@ -65,5 +63,31 @@ section {
 button {
     border: 1px solid #0000003a;
     background-color: var(--supp-color);
-    margin: 1px !important  ;
+    margin: 1px !important;
+}
+
+.ship-to-place:last-child {
+    font-weight: 700;
+    animation-name: activeShipHighlight;
+    animation-duration: .25s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes activeShipHighlight {
+    0% {
+        color: #9055ee;
+    }
+
+    100% {
+        color: #d7c7f1;
+    }
+}
+
+ul {
+    transform: rotate(180deg);
+}
+
+ul>li {
+    transform: rotate(-180deg);
 }
