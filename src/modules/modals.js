@@ -1,9 +1,9 @@
 import { players } from "./factories/player";
 
-export function showModal() {
-    const modal = document.createElement('modal');
+export function showNameModal() {
+    const nameModal = document.createElement('modal');
     const body = document.querySelector('body')
-    modal.innerHTML =
+    nameModal.innerHTML =
         `<div class="modal"  data-bs-backdrop="static" data-bs-keyboard="false" id="my-modal" tabindex="-1">
             <div class="modal-dialog">
                 <form class="modal-content needs-validation" novalidate onsubmit="return false">
@@ -22,7 +22,7 @@ export function showModal() {
                 </form>
             </div>
         </div>`
-    body.append(modal)
+    body.append(nameModal)
 
     const playerNameInput = document.getElementById('new-player-name');
     playerNameInput.value = 'Human'
@@ -47,3 +47,25 @@ export function bootstrapValidation() {
             }, false)
         })
 };
+
+export function showIllegalMoveModal() {
+    const illegalMoveModal = document.createElement('modal');
+    const body = document.querySelector('body')
+    illegalMoveModal.innerHTML =
+        `<div class="modal" data-bs-backdrop="static" data-bs-keyboard="false" id="illegal-move-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5 class="modal-title text-center">Illegal move - this location was already attacked!</h5>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    body.append(illegalMoveModal)
+    var myModal = new bootstrap.Modal(document.getElementById("illegal-move-modal"), {});
+    myModal.show()
+    document.addEventListener('keydown', (e) => e.key === 'Escape' ? myModal.hide() : {})
+    setTimeout(() => {
+        myModal.hide();
+    }, 2500);
+}

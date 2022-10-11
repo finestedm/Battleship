@@ -1,6 +1,6 @@
 import { Player, players } from "./factories/player";
 import { createGameboardDOM, getAllBoxes, regenerateGameboard } from "./DOM";
-import { showModal, bootstrapValidation } from "./showModal";
+import { showNameModal, bootstrapValidation } from "./modals";
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
 
@@ -14,7 +14,7 @@ export function changePlayer() {
 
 function gameLoop() {
 
-    showModal();
+    showNameModal();
     var myModal = new bootstrap.Modal(document.getElementById("my-modal"), {});
     myModal.show()
     const newPlayerNameInput = document.getElementById('new-player-name');

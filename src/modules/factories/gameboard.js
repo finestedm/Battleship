@@ -1,18 +1,11 @@
 import { Ship } from './ship.js';
 import { Box, findBoxObject } from './box.js';
-import { letPCAttack } from '../app.js';
+import { showIllegalMoveModal } from '../modals.js';
 
 export const boardSize = 10;
 
-
-
 export function findShipObjectWithName(shipObjects, name) {
     return shipObjects.filter(ship => ship.name === name)[0]
-}
-
-function illegalMove() {
-    console.log('this is illegal move')
-    return false
 }
 
 export class Gameboard {
@@ -68,6 +61,7 @@ export class Gameboard {
         var shipInBox = this.board[box.x * 10 + box.y].containedShip
         var actionStatus = null;
         if (box.isHit) {
+            showIllegalMoveModal();
             actionStatus = 'illegal move'
         } else if (shipInBox === null) {
             this.missedLocations.push(box)

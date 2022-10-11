@@ -164,3 +164,7 @@ function removeDirectionChanger() {
     }
 
 }
+
+function showIllegalMoveMessage() {
+    
+}
