@@ -67,5 +67,6 @@ export function showIllegalMoveModal() {
     document.addEventListener('keydown', (e) => e.key === 'Escape' ? myModal.hide() : {})
     setTimeout(() => {
         myModal.hide();
+        illegalMoveModal.remove();
     }, 2500);
 }
