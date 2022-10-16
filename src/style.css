@@ -1,11 +1,21 @@
 :root {
     --base-color: #f1f3f7;
-    --text-color: #3b3f44;
     --supp-color: #fffffe;
     --missed-color: #43aaee;
     --hit-color: #d48429;
     --sunk-color: #d42929;
     --acc3-color: #6290C3;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --base-color: #1b1b1b;
+        --supp-color: #2b2b2b;
+        --missed-color: #43aaee;
+        --hit-color: #d48429;
+        --sunk-color: #d42929;
+        --acc3-color: #6290C3;
+    }
 }
 
 body {
@@ -110,8 +120,17 @@ section {
     transform: 0;
 }
 
-.modal {
+.modal,
+modal {
     z-index: 999;
+}
+
+.modal-backdrop {
+    z-index: 1;
+}
+
+strong {
+    font-weight: 100 !important;
 }
 
 button {

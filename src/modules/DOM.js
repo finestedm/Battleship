@@ -55,8 +55,7 @@ function createBoardBoxDOM(box, playerObject) {
     // add additional marking to the whole ship sunk
     try {
         box.containedShip.isSunk() ? boardBox.classList.add('sunk') : {};
-    } catch (error) {
-    }
+    } catch (error) { }
     // change color if the boxes to ship color but only if the player is human
     box.containedShip && !playerObject.isPC && (boardBox.style.backgroundColor = box.containedShip.color);
     boardBox.addEventListener('click', () => {
