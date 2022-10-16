@@ -18,6 +18,12 @@
     }
 }
 
+svg {
+    height: 30px;
+    width: 30px;
+    fill: white;
+}
+
 body {
     background-color: var(--base-color) !important;
 }
