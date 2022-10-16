@@ -3,7 +3,8 @@
     --text-color: #3b3f44;
     --supp-color: #fffffe;
     --missed-color: #43aaee;
-    --hit-color: #d42929;
+    --hit-color: #d48429;
+    --sunk-color: #d42929;
     --acc3-color: #6290C3;
 }
 
@@ -45,6 +46,25 @@ body {
     margin: 1.5px;
 }
 
+.sunk {
+    position: relative;
+}
+
+.sunk::before {
+    z-index: 2;
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    height: 85%;
+    width: 85%;
+    background-color: var(--sunk-color);
+    border-radius: 50%;
+}
+
 .hit {
     position: relative;
 }
@@ -81,6 +101,7 @@ body {
     border-radius: 100%;
 }
 
+
 section {
     transform: 1;
 }
@@ -89,10 +110,14 @@ section {
     transform: 0;
 }
 
+.modal {
+    z-index: 999;
+}
+
 button {
-    border: none;
+    border: 1.5px solid var(--base-color);
     background-color: var(--supp-color);
-    margin: 2px !important;
+    /* margin: 2px !important; */
 }
 
 .ship-to-place:last-child {

@@ -52,6 +52,11 @@ function createBoardBoxDOM(box, playerObject) {
     boardBox.className = `box ${playerObject.name} justify-content-center`;
     // change color if the location is hit
     (box.isHit) && (box.containedShip === null ? boardBox.classList.add('missed') : boardBox.classList.add('hit'))
+    // add additional marking to the whole ship sunk
+    try {
+        box.containedShip.isSunk() ? boardBox.classList.add('sunk') : {};
+    } catch (error) {
+    }
     // change color if the boxes to ship color but only if the player is human
     box.containedShip && !playerObject.isPC && (boardBox.style.backgroundColor = box.containedShip.color);
     boardBox.addEventListener('click', () => {
