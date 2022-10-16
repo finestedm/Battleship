@@ -1,5 +1,5 @@
 import { Player, players } from "./factories/player";
-import { createGameboardDOM, getAllBoxes, regenerateGameboard } from "./DOM";
+import { createGameboardDOM, getAllBoxes, regenerateGameboard, createDirectionChanger } from "./DOM";
 import { showNameModal, bootstrapValidation, announceWinner } from "./modals";
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
@@ -22,6 +22,8 @@ function gameLoop() {
         if (e.key === 'Enter' && newPlayerNameValidation()) {
             myModal.hide();
             createGameboardDOM(playerOne)
+            createDirectionChanger()
+
         }
     });
     const nameButton = document.getElementById('btn-name-save')
@@ -29,6 +31,7 @@ function gameLoop() {
         if (newPlayerNameValidation()) {
             myModal.hide();
             createGameboardDOM(playerOne)
+            createDirectionChanger()
         }
     })
 };

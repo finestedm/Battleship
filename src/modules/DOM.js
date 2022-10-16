@@ -10,7 +10,7 @@ const root = document.getElementById('content')
 root.classList = 'container'
 const gameBoardHolder = document.createElement('div');
 gameBoardHolder.className = 'row'
-root.append(gameBoardHolder, createDirectionChanger())
+root.append(gameBoardHolder)
 
 export function createGameboardDOM(playerObject) {
     //reset the board
@@ -152,22 +152,20 @@ function findUnplacedShips(playerObject) {
     return playerObject.gameboard.unusedShips
 }
 
-function createDirectionChanger() {
+export function createDirectionChanger() {
     const directionChangerHolder = document.createElement('div');
     directionChangerHolder.id = 'direction-changer-holder'
     directionChangerHolder.className = "row mx-auto mt-3 justify-content-center text-center"
-    directionChangerHolder.innerHTML = '<h2> Change ship placing direction </h2>'
-
     const directionChanger = document.createElement('button');
-    directionChanger.innerText = `Current ship placing direction: ${shipPlacingDirection}`;
+    directionChanger.innerHTML = `<h4 class="col text-center">Ship placing direction: <strong>${changeDirectionIntoArrows(shipPlacingDirection)}</strong> </h4>`;
     directionChanger.id = 'direction-changer'
     directionChanger.className = "col-sm-4 text-center btn btn-primary"
     directionChanger.addEventListener('click', () => {
         shipPlacingDirection === 'x' ? shipPlacingDirection = 'y' : shipPlacingDirection = 'x'
-        directionChanger.textContent = `Current ship placing direction: ${shipPlacingDirection}`;
+        directionChanger.innerHTML = `<h4 class="col text-center">Ship placing direction: <strong>${changeDirectionIntoArrows(shipPlacingDirection)}</strong> </h4>`;
     })
     directionChangerHolder.append(directionChanger)
-    return directionChangerHolder
+    root.append(directionChangerHolder)
 }
 
 function removeDirectionChanger() {
@@ -176,4 +174,8 @@ function removeDirectionChanger() {
         directionChanger.remove()
     } catch (e) {
     }
+}
+
+function changeDirectionIntoArrows(direction) {
+    return direction === 'x' ? '⇕' : '⇔';
 }

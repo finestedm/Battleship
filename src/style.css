@@ -34,6 +34,11 @@ body {
     }
 }
 
+#direction-changer>h4 {
+    position: relative;
+    top: 3px;
+}
+
 .ship-len-square {
     height: 30px;
     width: 30px;
