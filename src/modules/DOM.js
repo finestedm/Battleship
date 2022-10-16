@@ -112,8 +112,19 @@ export function createListOfUnusedShips(playerObject) {
 
 function createShipDiv(playerObject, ship) {
     const shipContainer = document.createElement('li');
-    shipContainer.className = 'col ship-to-place'
-    shipContainer.innerText = ship.name + ', length: ' + ship.length;
+    shipContainer.className = 'col ship-to-place row justify-content-between'
+    const shipName = document.createElement('h5');
+    shipName.className = 'col ship-to-place-name d-inline-flex'
+    shipName.innerText = ship.name;
+    const shipDiv = document.createElement('div');
+    shipDiv.className = 'col ship-square-container d-inline-flex';
+    for (let i = 0; i < ship.length; i++) {
+        const square = document.createElement('div');
+        square.className = 'ship-len-square'
+        square.style.backgroundColor = ship.color;
+        shipDiv.append(square);
+    }
+    shipContainer.append(shipName, shipDiv)
     return shipContainer
 }
 
@@ -163,8 +174,4 @@ function removeDirectionChanger() {
 
     }
 
-}
-
-function showIllegalMoveMessage() {
-    
 }

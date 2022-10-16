@@ -2,8 +2,8 @@
     --base-color: #f1f3f7;
     --text-color: #3b3f44;
     --supp-color: #fffffe;
-    --acce-color: #7143ee;
-    --acc2-color: #2FBF71;
+    --missed-color: #43aaee;
+    --hit-color: #d42929;
     --acc3-color: #6290C3;
 }
 
@@ -34,22 +34,46 @@ body {
     }
 }
 
+.ship-len-square {
+    height: 30px;
+    width: 30px;
+    margin: 1.5px;
+}
+
 .hit {
-    background-color: red;
     position: relative;
 }
 
 .hit::after {
-    content: '💣';
+    content: '';
     position: absolute;
-    top: -5px;
-    left: -3px;
-    height: 100%;
-    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    height: 70%;
+    width: 70%;
+    background-color: var(--hit-color);
+    border-radius: 100%;
 }
 
 .missed {
-    background-color: blue;
+    position: relative;
+}
+
+.missed::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    height: 70%;
+    width: 70%;
+    background-color: var(--missed-color);
+    border-radius: 100%;
 }
 
 section {

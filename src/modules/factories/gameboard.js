@@ -1,6 +1,7 @@
 import { Ship } from './ship.js';
 import { Box, findBoxObject } from './box.js';
 import { showIllegalMoveModal } from '../modals.js';
+import { activePlayer } from '../app.js';
 
 export const boardSize = 10;
 
@@ -61,7 +62,7 @@ export class Gameboard {
         var shipInBox = this.board[box.x * 10 + box.y].containedShip
         var actionStatus = null;
         if (box.isHit) {
-            showIllegalMoveModal();
+            activePlayer.isPC ? showIllegalMoveModal() : {}
             actionStatus = 'illegal move'
         } else if (shipInBox === null) {
             this.missedLocations.push(box)
