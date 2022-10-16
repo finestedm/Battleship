@@ -1,6 +1,6 @@
 import { Player, players } from "./factories/player";
 import { createGameboardDOM, getAllBoxes, regenerateGameboard } from "./DOM";
-import { showNameModal, bootstrapValidation } from "./modals";
+import { showNameModal, bootstrapValidation, announceWinner } from "./modals";
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
 
@@ -56,10 +56,6 @@ export function placeAllPCShips() {
         playerTwo.gameboard.placeShip(playerTwo.gameboard.unusedShips[playerTwo.gameboard.unusedShips.length - 1], generateRandomStartingLocation(), generateRandomDirection())
     }
     regenerateGameboard()
-}
-
-export function announceWinner(playerObject) {
-    playerObject === playerOne ? console.log('playerTwo is winner') : console.log('playerTwo is winner')
 }
 
 function generateRandomStartingLocation() {

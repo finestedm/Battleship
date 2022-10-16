@@ -1,7 +1,8 @@
 import { boardSize, Gameboard } from "./factories/gameboard"
 import { players } from "./factories/player";
 import { letPCAttack, changePlayer, activePlayer, placeAllPCShips } from "./app";
-import { gameLoop, announceWinner } from "./app";
+import { gameLoop } from "./app";
+import { announceWinner } from "./modals";
 
 var shipPlacingDirection = 'x'
 
@@ -63,10 +64,12 @@ function createBoardBoxDOM(box, playerObject) {
             if (playerObject.gameboard.unusedShips.length > 1) {
                 playerObject.gameboard.placeShip(findUnplacedShips(playerObject).slice(-1)[0], box, shipPlacingDirection)
                 createGameboardDOM(playerObject)
-            } else if (playerObject.gameboard.unusedShips.length === 1) {   // with the last ship we can generate playerTwo part and begin game
+            } else if (playerObject.gameboard.unusedShips.length === 1) {   // with the last ship we can generate playerTwo part and begin game...
                 playerObject.gameboard.placeShip(findUnplacedShips(playerObject).slice(-1)[0], box, shipPlacingDirection)
-                regenerateGameboard()
-                placeAllPCShips()
+                if (playerObject.gameboard.unusedShips.length === 0) {      // ...but only if after above click the ships was placed correctly!
+                    regenerateGameboard()
+                    placeAllPCShips()
+                }
             }
         }
     })
@@ -85,8 +88,9 @@ function createBoardBoxDOM(box, playerObject) {
     return boardBox
 }
 
+
 export function regenerateGameboard() {
-    players.forEach(playerObject => playerObject.gameboard.reportEntireFleetSunk() ? announceWinner(playerObject) : {})
+    players.forEach(playerObject => playerObject.gameboard.reportEntireFleetSunk() ? announceWinner(players.slice(playerObject, 1)[0]) : {})
     players.forEach(playerObject => createGameboardDOM(playerObject))
 }
 
@@ -171,7 +175,5 @@ function removeDirectionChanger() {
         const directionChanger = document.getElementById('direction-changer-holder');
         directionChanger.remove()
     } catch (e) {
-
     }
-
 }

@@ -7,17 +7,17 @@ export function showNameModal() {
         `<div class="modal"  data-bs-backdrop="static" data-bs-keyboard="false" id="my-modal" tabindex="-1">
             <div class="modal-dialog">
                 <form class="modal-content needs-validation" novalidate onsubmit="return false">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Choose player name</h5>
+                    <div class="modal-header col-12 text-center">
+                        <h5 class="modal-title w-100">Choose player name</h5>
                     </div>
                     <div class="modal-body">
                         <div class="input-group">
                             <span class="input-group-text">Player Name</span>
-                            <input type='text' id='new-player-name' class="form-control" required aria-label="Player name" placeholder='Player name' pattern='[a-zA-Z]+'></>
+                            <input type='text' id='new-player-name' class="form-control text-center" required aria-label="Player name" placeholder='Player name' pattern='[a-zA-Z]+'></>
                          </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" id='btn-name-save' class="btn btn-primary">Save changes</button>
+                    <div class="modal-footer text-center">
+                        <button type="submit" id='btn-name-save' class="btn btn-primary col-12">Set player name</button>
                     </div>
                 </form>
             </div>
@@ -69,4 +69,28 @@ export function showIllegalMoveModal() {
         myModal.hide();
         illegalMoveModal.remove();
     }, 2500);
+}
+
+export function announceWinner(playerObject) {
+    const winnerModal = document.createElement('modal');
+    const body = document.querySelector('body')
+    winnerModal.innerHTML =
+        `<div class="modal" data-bs-backdrop="static" data-bs-keyboard="false" id="winner-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content text-center">
+                    <div class="modal-body text-center">
+                        <h3 class="modal-title text-center">${playerObject.name} won!</h3>
+                        <h5 class="col modal-title">Would you like to play again?</h5>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" id='btn-reload-game' class="col btn btn-success">Play again</button>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    body.append(winnerModal)
+    var myModal = new bootstrap.Modal(document.getElementById("winner-modal"), {});
+    myModal.show()
+    const playAgainButton = document.getElementById('btn-reload-game');
+    playAgainButton.addEventListener('click', () => location.reload())
 }

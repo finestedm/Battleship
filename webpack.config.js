@@ -30,8 +30,7 @@ module.exports = {
         new HtmlWebpackPlugin({
 
             title: 'Battleship',
-            template: './src/template.html'
-
+            template: './src/template.html',
         }),
 
     ],
